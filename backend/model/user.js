@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { validateUrlPattern } = require('../utils/utils');
+const { validateUrlPattern, validateEmailPattern } = require('../utils/utils');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    validate: validateEmailPattern(),
   },
   password: {
     type: String,

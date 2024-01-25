@@ -1,3 +1,5 @@
+const { isEmail } = require('validator');
+
 function validateUrlPattern() {
   return {
     validator(v) {
@@ -9,6 +11,16 @@ function validateUrlPattern() {
   };
 }
 
+function validateEmailPattern() {
+  return {
+    validator(v) {
+      return isEmail(v)
+    },
+    message: 'Introduce a valid email.'
+  }
+}
+
 module.exports = {
   validateUrlPattern,
+  validateEmailPattern,
 };
