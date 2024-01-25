@@ -22,10 +22,8 @@ function getTheUser(req, res) {
     });
 }
 
-function createUser(req, res) {
-  const { name, about, avatar } = req.body;
-
-  User.create({ name, about, avatar })
+function createUser( {body: {name, about, avatar, email, password }}, res) {
+  User.create({ name, about, avatar, email, password })
     .then(() => res.send())
     .catch(req.haveError);
 }
