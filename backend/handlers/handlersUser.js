@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const User = require('../model/user');
 const CastError = require('../utils/components/CastError');
 const VoidError = require('../utils/components/VoidError');
@@ -22,10 +23,11 @@ function getTheUser(req, res) {
     });
 }
 
-function createUser( {body: {name, about, avatar, email, password }}, res) {
-  User.create({ name, about, avatar, email, password })
-    .then(() => res.send())
-    .catch(req.haveError);
+function createUser( {body: { email, password }, haveError}, res) {
+  bcrypt.hash(password, 10)
+    .then(hash => User.create({ email, password: hash }))
+    .then(user => res.send(user))
+    .catch(haveError);
 }
 
 function updateUserMe(req, res) {

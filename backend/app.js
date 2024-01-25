@@ -1,11 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const { errors } = require('celebrate')
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+const registerRouter = require('./routes/register');
 const notFound = require('./middleware/notFound');
 const setTestUser = require('./middleware/setTestUser');
 const haveError = require('./middleware/haveError');
+const { validateMailAndPass } = require('./utils/utils')
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -14,6 +17,7 @@ const allowedOrigins = [
   'https://around.nomoreparties.co',
   'http://around.nomoreparties.co',
 ];
+const bodyValidator = validateMailAndPass();
 
 app.use(cors({ origin: allowedOrigins }));
 
@@ -24,6 +28,10 @@ app.use(express.json());
 app.use(setTestUser);
 
 app.use(haveError);
+
+app.use('/signup', bodyValidator, registerRouter);
+
+app.use(errors())
 
 app.use('/users', usersRouter);
 

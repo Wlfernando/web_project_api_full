@@ -11,8 +11,6 @@ usersRouter.get('', getUsers);
 
 usersRouter.get('/:id', getTheUser);
 
-usersRouter.post('', createUser);
-
 usersRouter.patch('/me', updateUserMe);
 
 usersRouter.patch('/me/avatar', updateUserAvatar);

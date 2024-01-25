@@ -1,4 +1,5 @@
 const { isEmail } = require('validator');
+const { celebrate, Joi } = require('celebrate')
 
 function validateUrlPattern() {
   return {
@@ -20,7 +21,17 @@ function validateEmailPattern() {
   }
 }
 
+function validateMailAndPass() {
+  return celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email(),
+      password: Joi.string().required().min(4),
+    })
+  })
+}
+
 module.exports = {
   validateUrlPattern,
   validateEmailPattern,
+  validateMailAndPass,
 };
