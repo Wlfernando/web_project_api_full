@@ -17,11 +17,10 @@ const allowedOrigins = [
   'https://around.nomoreparties.co',
   'http://around.nomoreparties.co',
 ];
-const bodyValidator = validateMailAndPass();
 
 app.use(cors({ origin: allowedOrigins }));
 
-mongoose.connect('mongodb://localhost:27017/aroundb');
+mongoose.connect('mongodb://127.0.0.1:27017/aroundb');
 
 app.use(express.json());
 
@@ -29,7 +28,7 @@ app.use(setTestUser);
 
 app.use(haveError);
 
-app.use('/signup', bodyValidator, registerRouter);
+app.use('/signup', validateMailAndPass, registerRouter);
 
 app.use(errors())
 

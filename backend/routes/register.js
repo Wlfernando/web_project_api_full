@@ -3,6 +3,5 @@ const { createUser } = require('../handlers/handlersUser')
 
 registerRouter.post('', createUser)
 
-module.exports = {
-  registerRouter,
-}
+module.exports = registerRouter
+

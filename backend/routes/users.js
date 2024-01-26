@@ -2,7 +2,6 @@ const usersRouter = require('express').Router();
 const {
   getUsers,
   getTheUser,
-  createUser,
   updateUserMe,
   updateUserAvatar,
 } = require('../handlers/handlersUser');
