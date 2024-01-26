@@ -1,5 +1,9 @@
 const { isEmail } = require('validator');
-const { celebrate, Joi } = require('celebrate')
+const { celebrate, Joi } = require('celebrate');
+const bcrypt = require('bcryptjs');
+const AuthError = require('./components/AuthError');
+
+const credencialsError = new AuthError('Incorrect password or email.');
 
 function validateUrlPattern() {
   return {
@@ -30,8 +34,25 @@ function validateMailAndPass() {
   })
 }
 
+async function findUserByCredencials({ email, password }) {
+  const theUser = await this.findOne({ email })
+
+  if (!theUser) {
+    return Promise.reject(credencialsError)
+  }
+
+  const matched = await bcrypt.compare(password, theUser.password)
+
+  if (!matched) {
+    return Promise.reject(credencialsError)
+  }
+
+  return Promise.resolve(theUser)
+}
+
 module.exports = {
   validateUrlPattern,
   validateEmailPattern,
   validateMailAndPass,
+  findUserByCredencials,
 };

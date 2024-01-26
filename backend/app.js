@@ -8,8 +8,7 @@ const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
 const notFound = require('./middleware/notFound');
 const setTestUser = require('./middleware/setTestUser');
-const haveError = require('./middleware/haveError');
-const handleError = require('./middleware/handleError');
+const hasError = require('./middleware/hasError');
 const { validateMailAndPass } = require('./utils/utils');
 
 const app = express();
@@ -29,8 +28,6 @@ app.use(express.json());
 
 app.use(setTestUser);
 
-app.use(haveError);
-
 app.use('/signup', validator, registerRouter);
 
 app.use('/signin', validator, loginRouter)
@@ -43,6 +40,6 @@ app.use('/cards', cardsRouter);
 
 app.use('*', notFound);
 
-app.use(handleError)
+app.use(hasError)
 
 app.listen(PORT);

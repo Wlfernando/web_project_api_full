@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { validateUrlPattern, validateEmailPattern } = require('../utils/utils');
+const { validateUrlPattern, validateEmailPattern, findUserByCredencials } = require('../utils/utils');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -34,5 +34,7 @@ const userSchema = new mongoose.Schema({
     minlength: 4,
   },
 });
+
+userSchema.statics.findUserByCredencials = findUserByCredencials
 
 module.exports = mongoose.model('user', userSchema);

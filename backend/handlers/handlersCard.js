@@ -2,34 +2,34 @@ const Card = require('../model/card');
 const VoidError = require('../utils/components/VoidError');
 const CastError = require('../utils/components/CastError');
 
-function getCards(req, res) {
+function getCards(req, res, next) {
   Card.find({})
     .orFail(() => {
       throw new VoidError('No cards.');
     })
     .populate(['owner', 'likes'])
     .then((cards) => res.send(cards))
-    .catch(req.haveError);
+    .catch(next);
 }
 
-function createCard(req, res) {
+function createCard(req, res, next) {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
     .then(() => res.send())
-    .catch(req.haveError);
+    .catch(next);
 }
 
-function deleteCard(req, res) {
+function deleteCard(req, res, next) {
   Card.findByIdAndDelete(req.params.id)
     .orFail(() => {
       throw new CastError('There\'s no card with that id.');
     })
     .then(() => res.send())
-    .catch(req.haveError);
+    .catch(next);
 }
 
-function putCardLike(req, res) {
+function putCardLike(req, res, next) {
   const { cardId } = req.params;
 
   Card.findByIdAndUpdate(
@@ -38,10 +38,10 @@ function putCardLike(req, res) {
     { new: true },
   )
     .then(() => res.send())
-    .catch(() => req.haveError(new CastError('Card not found.')));
+    .catch(() => next(new CastError('Card not found.')));
 }
 
-function deleteCardLike(req, res) {
+function deleteCardLike(req, res, next) {
   const { cardId } = req.params;
 
   Card.findByIdAndUpdate(
@@ -50,7 +50,7 @@ function deleteCardLike(req, res) {
     { new: true },
   )
     .then(() => res.send())
-    .catch(() => req.haveError(new CastError('Card not found.')));
+    .catch(() => next(new CastError('Card not found.')));
 }
 
 module.exports = {
