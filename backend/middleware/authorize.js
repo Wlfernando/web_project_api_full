@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const AuthError = require('../utils/components/AuthError');
+const Forbidden = require('../utils/components/Forbidden');
 
-const rejected = new AuthError('Authorization needed.');
+const rejected = new Forbidden('Authorization needed.');
 
 module.exports = function authorize(req, res, next) {
   const { authorization } = req.headers
