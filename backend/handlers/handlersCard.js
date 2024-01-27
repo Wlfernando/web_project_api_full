@@ -21,10 +21,7 @@ function createCard(req, res, next) {
 }
 
 function deleteCard(req, res, next) {
-  Card.findByIdAndDelete(req.params.id)
-    .orFail(() => {
-      throw new CastError('There\'s no card with that id.');
-    })
+  Card.findOneAndDelete({ _id: req.params.id, owner: req.user._id })
     .then(() => res.send())
     .catch(next);
 }

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { validateUrlPattern } = require('../utils/utils');
 
+const types = mongoose.Schema.Types;
+
 const cardSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -14,12 +16,12 @@ const cardSchema = new mongoose.Schema({
     validate: validateUrlPattern(),
   },
   owner: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: types.ObjectId,
     ref: 'user',
     required: true,
   },
   likes: [{
-    type: mongoose.Schema.Types.ObjectId,
+    type: types.ObjectId,
     ref: 'user',
   }],
   createdAt: {
