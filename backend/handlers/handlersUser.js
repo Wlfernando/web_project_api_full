@@ -42,9 +42,6 @@ function updateUserMe(req, res, next) {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { name, about }, { runValidators: true })
-    .orFail(() => {
-      throw new CastError('Has occurred a problem with the credencials')
-    })
     .then(() => res.send())
     .catch(next);
 }
@@ -53,9 +50,6 @@ function updateUserAvatar(req, res, next) {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { avatar }, { runValidators: true })
-    .orFail(() => {
-      throw new CastError('Has occurred a problem with the credencials')
-    })
     .then(() => res.send())
     .catch(next);
 }
