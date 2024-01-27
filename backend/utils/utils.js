@@ -35,7 +35,7 @@ function validateMailAndPass() {
 }
 
 async function findUserByCredencials({ email, password }) {
-  const theUser = await this.findOne({ email })
+  const theUser = await this.findOne({ email }).select('+password')
 
   if (!theUser) {
     return Promise.reject(credencialsError)
