@@ -1,0 +1,12 @@
+.popup {
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 250ms, opacity 250ms ease-in-out;
+  color: black;
+}

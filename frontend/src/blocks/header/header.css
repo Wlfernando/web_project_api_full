@@ -1,0 +1,13 @@
+.header {
+  margin-top: 45px;
+  row-gap: 41px;
+  display: grid;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media screen and (width < 880px) {
+  .header:has(.header__menu) {
+    margin-top: 0;
+  }
+}

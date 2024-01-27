@@ -1,0 +1,4 @@
+.header__horizontal {
+  opacity: .4;
+  grid-column: span 2;
+}

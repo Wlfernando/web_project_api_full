@@ -1,0 +1,7 @@
+.popup__image-container {
+  max-width: 80%;
+  width: fit-content;
+  display: grid;
+  place-items: center;
+  gap: 10px;
+}
