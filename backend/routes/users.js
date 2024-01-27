@@ -8,7 +8,7 @@ const {
 
 usersRouter.get('', getUsers);
 
-usersRouter.get('/:id', getTheUser);
+usersRouter.get('/me', getTheUser);
 
 usersRouter.patch('/me', updateUserMe);
 

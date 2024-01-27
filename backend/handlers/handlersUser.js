@@ -14,8 +14,10 @@ function getUsers(req, res, next) {
 }
 
 function getTheUser(req, res, next) {
-  User.findById(req.params.id)
-    .then((user) => res.send(user))
+  User.findById(req.user._id)
+    .then(user => {
+      res.send(user)
+    })
     .catch(() => {
       next(new CastError('User not Found.'))
     });
