@@ -1,4 +1,4 @@
-const { isEmail } = require('validator');
+const { isEmail, isURL } = require('validator');
 const { celebrate, Joi } = require('celebrate');
 const bcrypt = require('bcryptjs');
 const AuthError = require('./components/AuthError');
@@ -50,9 +50,36 @@ async function findUserByCredencials({ email, password }) {
   return Promise.resolve(theUser);
 }
 
+function validateURL(value, helpers) {
+  if (isURL(value)) {
+    return value;
+  }
+
+  return helpers.error('string.uri');
+}
+
+function validateAvatar() {
+  return celebrate({
+    body: Joi.object().keys({
+      avatar: Joi.string().required().custom(validateURL),
+    }),
+  });
+}
+
+function validateCard() {
+  return celebrate({
+    body: Joi.object().keys({
+      name: Joi.string().required().min(2).max(30),
+      link: Joi.string().required().custom(validateURL),
+    }),
+  });
+}
+
 module.exports = {
   validateUrlPattern,
   validateEmailPattern,
   validateMailAndPass,
   findUserByCredencials,
+  validateAvatar,
+  validateCard,
 };

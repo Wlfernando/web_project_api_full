@@ -30,13 +30,13 @@ app.use('/signup', validator, registerRouter);
 
 app.use('/signin', validator, loginRouter);
 
-app.use(errors());
-
 app.use(authorize);
 
 app.use('/users', usersRouter);
 
 app.use('/cards', cardsRouter);
+
+app.use(errors());
 
 app.use('*', notFound);
 

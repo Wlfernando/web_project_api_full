@@ -6,10 +6,11 @@ const {
   putCardLike,
   deleteCardLike,
 } = require('../handlers/handlersCard');
+const { validateCard } = require('../utils/utils');
 
 cardsRouter.get('', getCards);
 
-cardsRouter.post('', createCard);
+cardsRouter.post('', validateCard(), createCard);
 
 cardsRouter.delete('/:id', deleteCard);
 
