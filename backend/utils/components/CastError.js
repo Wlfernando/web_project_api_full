@@ -1,8 +1,7 @@
 module.exports = class CastError extends Error {
-  statusCode = 404;
-  name = 'CastError'
-  
   constructor(message) {
     super(message);
+    this.statusCode = 404;
+    this.name = 'CastError';
   }
-}
+};

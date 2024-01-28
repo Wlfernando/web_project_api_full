@@ -1,6 +1,6 @@
 const registerRouter = require('express').Router();
-const { createUser } = require('../handlers/handlersUser')
+const { createUser } = require('../handlers/handlersUser');
 
-registerRouter.post('', createUser)
+registerRouter.post('', createUser);
 
-module.exports = registerRouter
+module.exports = registerRouter;

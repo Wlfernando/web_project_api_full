@@ -15,29 +15,27 @@ function getUsers(req, res, next) {
 
 function getTheUser(req, res, next) {
   User.findById(req.user._id)
-    .then(user => {
-      res.send(user)
-    })
+    .then((user) => res.send(user))
     .catch(() => {
-      next(new CastError('User not Found.'))
+      next(new CastError('User not Found.'));
     });
 }
 
-function createUser({ body: { email, password }}, res, next) {
+function createUser({ body: { email, password } }, res, next) {
   bcrypt.hash(password, 10)
-    .then(hash => User.create({ email, password: hash }))
-    .then(user => res.send(user))
+    .then((hash) => User.create({ email, password: hash }))
+    .then((user) => res.send(user))
     .catch(next);
 }
 
-function login({ body: { email, password }}, res, next) {
+function login({ body: { email, password } }, res, next) {
   User.findUserByCredencials({ email, password })
-    .then(user => {
-      const token = jwt.sign({ _id: user._id }, 'chanchito', { expiresIn: '7d' })
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, 'chanchito', { expiresIn: '7d' });
 
-      res.send({ token, email: user.email })
+      res.send({ token, email: user.email });
     })
-    .catch(next)
+    .catch(next);
 }
 
 function updateUserMe(req, res, next) {

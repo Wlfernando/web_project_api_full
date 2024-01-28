@@ -19,10 +19,10 @@ function validateUrlPattern() {
 function validateEmailPattern() {
   return {
     validator(v) {
-      return isEmail(v)
+      return isEmail(v);
     },
-    message: 'Introduce a valid email.'
-  }
+    message: 'Introduce a valid email.',
+  };
 }
 
 function validateMailAndPass() {
@@ -30,24 +30,24 @@ function validateMailAndPass() {
     body: Joi.object().keys({
       email: Joi.string().required().email(),
       password: Joi.string().required().min(4),
-    })
-  })
+    }),
+  });
 }
 
 async function findUserByCredencials({ email, password }) {
-  const theUser = await this.findOne({ email }).select('+password')
+  const theUser = await this.findOne({ email }).select('+password');
 
   if (!theUser) {
-    return Promise.reject(credencialsError)
+    return Promise.reject(credencialsError);
   }
 
-  const matched = await bcrypt.compare(password, theUser.password)
+  const matched = await bcrypt.compare(password, theUser.password);
 
   if (!matched) {
-    return Promise.reject(credencialsError)
+    return Promise.reject(credencialsError);
   }
 
-  return Promise.resolve(theUser)
+  return Promise.resolve(theUser);
 }
 
 module.exports = {

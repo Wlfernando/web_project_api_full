@@ -4,11 +4,11 @@ const Forbidden = require('../utils/components/Forbidden');
 const rejected = new Forbidden('Authorization needed.');
 
 module.exports = function authorize(req, res, next) {
-  const { authorization } = req.headers
+  const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    next(rejected)
-    return
+    next(rejected);
+    return;
   }
 
   const token = authorization.replace('Bearer ', '');
@@ -16,12 +16,12 @@ module.exports = function authorize(req, res, next) {
   let payload;
 
   try {
-    payload = jwt.verify(token, 'chanchito')
-  } catch {
-    next(rejected)
-    return
+    payload = jwt.verify(token, 'chanchito');
+  } catch (e) {
+    next(rejected);
+    return;
   }
 
-  req.user = payload
-  next()
-}
+  req.user = payload;
+  next();
+};

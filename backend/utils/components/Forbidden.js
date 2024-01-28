@@ -1,8 +1,7 @@
 module.exports = class Forbidden extends Error {
-  statusCode = 403
-  name = "Forbidden"
-
   constructor(message) {
-    super(message)
+    super(message);
+    this.name = 'Forbidden';
+    this.statusCode = 403;
   }
-}
+};

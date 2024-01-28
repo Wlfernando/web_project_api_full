@@ -4,21 +4,21 @@ const { validateUrlPattern, validateEmailPattern, findUserByCredencials } = requ
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    default: "Jacques Cousteau",
+    default: 'Jacques Cousteau',
     minlength: 2,
     maxlength: 30,
     required: true,
   },
   about: {
     type: String,
-    default: "Explorador",
+    default: 'Explorador',
     minlength: 2,
     maxlength: 30,
     required: true,
   },
   avatar: {
     type: String,
-    default: "https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg",
+    default: 'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
     required: true,
     validate: validateUrlPattern(),
   },
@@ -36,6 +36,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.statics.findUserByCredencials = findUserByCredencials
+userSchema.statics.findUserByCredencials = findUserByCredencials;
 
 module.exports = mongoose.model('user', userSchema);

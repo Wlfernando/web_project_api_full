@@ -1,6 +1,6 @@
 const loginRouter = require('express').Router();
-const { login } = require('../handlers/handlersUser')
+const { login } = require('../handlers/handlersUser');
 
-loginRouter.post('', login)
+loginRouter.post('', login);
 
-module.exports = loginRouter
+module.exports = loginRouter;
