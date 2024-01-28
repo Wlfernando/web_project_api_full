@@ -14,7 +14,7 @@ const authorize = require('./middleware/authorize');
 const app = express();
 const { PORT = 3000 } = process.env;
 const allowedOrigins = [
-  'http://localhost:3000',
+  'http://127.0.0.1:3001/web_project_around_auth',
   'https://around.nomoreparties.co',
   'http://around.nomoreparties.co',
 ];
@@ -42,4 +42,6 @@ app.use('*', notFound);
 
 app.use(hasError)
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log('lisen at ' + PORT)
+});

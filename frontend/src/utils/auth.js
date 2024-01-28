@@ -1,4 +1,6 @@
-import { authNomoreparties } from "./api";
+import myApi from "./api";
+
+const { me, login, registry, post, get } = myApi;
 
 function confirmBody(user) {
   if (typeof user !== 'object') {
@@ -21,17 +23,17 @@ function confirmBody(user) {
 export function register(user) {
   confirmBody(user)
 
-  return authNomoreparties.post(authNomoreparties.register, user)
+  return post(registry, user)
 }
 
-export function login(user) {
+export function signin(user) {
   confirmBody(user)
 
-  return authNomoreparties.post(authNomoreparties.login, user)
+  return post(login, user)
     .then(({ token }) => {
       sessionStorage.setItem('token', token)
 
-      return authNomoreparties.get(authNomoreparties.me, token)
+      return get(me)
     })
     .then(( {data: { email } }) => {
       sessionStorage.setItem('email', email)

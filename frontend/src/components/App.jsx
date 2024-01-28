@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { routeDev } from '../contexts/RouteContext.js';
-import { aroundNomoreparties } from '../utils/api.js';
+import myApi from '../utils/api.js';
 import Header from './Header.jsx';
 import useModal from '../customHook/useModal.js'
 import Main from './Main.jsx';
@@ -38,13 +38,13 @@ function App() {
       mssgRef.current = err.message
       openPopup('error')
     }, [openPopup]),
-    
+
     { main, register, login} = routeDev;
 
   useEffect(() => {
     if ([register, login].every(route => route !== pathname)) {
-      const {me, cards, get} = aroundNomoreparties;
-    
+      const {me, cards, get} = myApi;
+
       get(me)
         .then(setCurrentUser)
         .catch(handleError)
@@ -70,7 +70,7 @@ function App() {
   }
 
   function handleLogin(user) {
-    auth.login(user)
+    auth.signin(user)
       .then(() => {
         history.push(main)
       })
@@ -92,9 +92,9 @@ function App() {
   }
 
   function updateContent(setDelay) {
-    const 
-      {me, avatar, cards: cardsRoute, likes } = aroundNomoreparties,
-      {patch, post, toggle, get, remove} = aroundNomoreparties;
+    const
+      {me, avatar, cards: cardsRoute, likes } = myApi,
+      {patch, post, toggle, get, remove} = myApi;
 
     function setFinally() {
       closeAllPopups()

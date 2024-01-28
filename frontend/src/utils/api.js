@@ -5,10 +5,11 @@ class Api {
   _put = 'PUT'
   _patch = 'PATCH'
 
-  constructor({baseUrl, headers}) {
+  constructor({baseUrl, headers}, endPoints) {
     this._baseUrl = baseUrl;
-    this._authorization = headers.authorization;
+    this._getAuthorization = headers.getAuthorization;
     this._contentType = headers['Content-Type'];
+    this._setEndPoints(endPoints)
   }
 
   _confirm(res) {
@@ -21,19 +22,12 @@ class Api {
       this[key] = value
     })
   }
-}
 
-class ApiEstablished extends Api {
-  constructor(config, endPoints) {
-    super(config)
-    this._setEndPoints(endPoints)
-  }
-
-  _sendBodyOptions({ method, body }) {
+  _setBodyOptions({ method, body }) {
     return {
       method,
       headers: {
-        authorization: this._authorization,
+        authorization: this._getAuthorization(),
         "Content-Type": this._contentType,
       },
       body: JSON.stringify(body)
@@ -41,7 +35,7 @@ class ApiEstablished extends Api {
   }
 
   _sendBody(endPoint, fetchOpt, root) {
-    return fetch(this._baseUrl + endPoint, this._sendBodyOptions(fetchOpt))
+    return fetch(this._baseUrl + endPoint, this._setBodyOptions(fetchOpt))
     .then(this._confirm)
     .then(() => this.get(root ?? endPoint))
   }
@@ -49,7 +43,8 @@ class ApiEstablished extends Api {
   get = (endPoint) => {
     return fetch(this._baseUrl + endPoint, {
       headers: {
-        authorization: this._authorization,
+        "Content-Type": this._contentType,
+        "Authorization": this._getAuthorization(),
       }
     })
     .then(this._confirm)
@@ -59,7 +54,7 @@ class ApiEstablished extends Api {
     return fetch(this._baseUrl + endPoint + '/' + id, {
       method: condition ? this._delete : this._put,
       headers: {
-        authorization: this._authorization,
+        "Authorization": this._getAuthorization(),
       }
     })
     .then(this._confirm)
@@ -69,7 +64,7 @@ class ApiEstablished extends Api {
     return fetch(this._baseUrl + endPoint + '/' + id, {
       method: this._delete,
       headers: {
-        authorization: this._authorization,
+        authorization: this._getAuthorization(),
       }
     })
     .then(this._confirm)
@@ -77,64 +72,29 @@ class ApiEstablished extends Api {
 
   patch = (endPoint, body, root = null) => {
     return this._sendBody(endPoint, { method: this._patch, body }, root)
+      .then(this._confirm)
   }
 
   post = (endPoint, body, root = null) => {
+    console.log(this._baseUrl + this.registry)
     return this._sendBody(endPoint, { method: this._post, body }, root)
+      .then(this._confirm)
   }
 }
 
-class ApiAuth extends Api {
-  constructor(config, endPoints) {
-    super(config)
-    this._setEndPoints(endPoints)
-  }
-
-  post = (endPoint, body) => {
-    return fetch(this._baseUrl + endPoint, {
-      method: this._post,
-      headers: {
-        "Content-Type": this._contentType,
-      },
-      body: JSON.stringify(body)
-    })
-    .then(this._confirm)
-  }
-
-  get = (endPoint, token) => {
-    return fetch(this._baseUrl + endPoint, {
-      method: this._get,
-      headers: {
-        "Content-Type": this._contentType,
-        "Authorization": `Bearer ${token}`
-      }
-    })
-    .then(this._confirm)
-  }
-}
-
-const authNomoreparties = new ApiAuth({
-  baseUrl: "https://register.nomoreparties.co",
+const myApi = new Api({
+  baseUrl: 'https://127.0.0.1:3000',
   headers: {
+    getAuthorization: () => 'Bearer ' + sessionStorage.getItem('token'),
     "Content-Type": "application/json"
   }
 }, {
-  register: '/signup',
-  login: '/signin',
   me: '/users/me',
-});
-
-const aroundNomoreparties = new ApiEstablished({
-  baseUrl: "https://around.nomoreparties.co/v1",
-  headers: {
-    authorization: "4f0ec2d8-0a82-401b-be94-8d93fd8bc4fc",
-    "Content-Type": "application/json"
-  }
-}, {
-  me: '/web_es_07/users/me',
-  cards: '/web_es_07/cards',
-  avatar: '/web_es_07/users/me/avatar',
-  likes: '/web_es_07/cards/likes',
+  login: '/signin',
+  registry: '/signup',
+  cards: '/cards',
+  avatar: '/users/me/avatar',
+  likes: '/cards/likes',
 })
 
-export { authNomoreparties, aroundNomoreparties }
+export default myApi
