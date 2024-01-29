@@ -2,6 +2,10 @@ const Card = require('../model/card');
 const VoidError = require('../utils/components/VoidError');
 const CastError = require('../utils/components/CastError');
 
+function hasNotFoundCard() {
+  throw new CastError('Card not found.');
+}
+
 function getCards(req, res, next) {
   Card.find({})
     .orFail(() => {
@@ -34,8 +38,8 @@ function putCardLike(req, res, next) {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    .then(() => res.send())
-    .catch(() => next(new CastError('Card not found.')));
+    .then(() => res.send(), hasNotFoundCard)
+    .catch(next);
 }
 
 function deleteCardLike(req, res, next) {
@@ -46,8 +50,8 @@ function deleteCardLike(req, res, next) {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-    .then(() => res.send())
-    .catch(() => next(new CastError('Card not found.')));
+    .then(() => res.send(), hasNotFoundCard)
+    .catch(next);
 }
 
 module.exports = {

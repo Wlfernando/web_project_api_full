@@ -36,9 +36,9 @@ app.use('/users', usersRouter);
 
 app.use('/cards', cardsRouter);
 
-app.use(errors());
-
 app.use('*', notFound);
+
+app.use(errors());
 
 app.use(hasError);
 

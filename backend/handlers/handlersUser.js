@@ -4,6 +4,10 @@ const User = require('../model/user');
 const CastError = require('../utils/components/CastError');
 const VoidError = require('../utils/components/VoidError');
 
+function hasNotFoundUser() {
+  throw new CastError('User not Found.');
+}
+
 function getUsers(req, res, next) {
   User.find({})
     .orFail(() => {
@@ -15,10 +19,8 @@ function getUsers(req, res, next) {
 
 function getTheUser(req, res, next) {
   User.findById(req.user._id)
-    .then((user) => res.send(user))
-    .catch(() => {
-      next(new CastError('User not Found.'));
-    });
+    .then((user) => res.send(user), hasNotFoundUser)
+    .catch(next);
 }
 
 function createUser({ body: { email, password } }, res, next) {
