@@ -15,9 +15,11 @@ const authorize = require('./middleware/authorize');
 const app = express();
 const { PORT = 3000 } = process.env;
 const allowedOrigins = [
-  'http://127.0.0.1:3001/web_project_around_auth',
-  'https://around.nomoreparties.co',
-  'http://around.nomoreparties.co',
+  'https://www.balam.maya.es',
+  'https://balam.maya.es',
+  'http://www.balam.maya.es',
+  'http://balam.maya.es',
+  'https://127.0.0.1',
 ];
 const validator = validateMailAndPass();
 
