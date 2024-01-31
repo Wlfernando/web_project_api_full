@@ -1,6 +1,6 @@
 import myApi from "./api";
 
-const { me, login, registry, post, get } = myApi;
+const { me, login, registry, sign, get } = myApi;
 
 function confirmBody(user) {
   if (typeof user !== 'object') {
@@ -23,19 +23,18 @@ function confirmBody(user) {
 export function register(user) {
   confirmBody(user)
 
-  return post(registry, user)
+  return sign(registry, user)
 }
 
 export function signin(user) {
   confirmBody(user)
 
-  return post(login, user)
+  return sign(login, user)
     .then(({ token }) => {
       sessionStorage.setItem('token', token)
-
       return get(me)
     })
-    .then(( {data: { email } }) => {
-      sessionStorage.setItem('email', email)
+    .then((user) => {
+      sessionStorage.setItem('email', user.email)
     })
 }

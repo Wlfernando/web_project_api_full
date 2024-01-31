@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 export const RouteContext = createContext()
 
-const main = '/web_project_around_auth';
+const main = '/around';
 
 const register = main + '/signup';
 

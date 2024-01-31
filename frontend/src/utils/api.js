@@ -23,7 +23,7 @@ class Api {
     })
   }
 
-  _setBodyOptions({ method, body }) {
+  _setOptions({ method, body }) {
     return {
       method,
       headers: {
@@ -34,10 +34,8 @@ class Api {
     }
   }
 
-  _sendBody(endPoint, fetchOpt, root) {
-    return fetch(this._baseUrl + endPoint, this._setBodyOptions(fetchOpt))
-    .then(this._confirm)
-    .then(() => this.get(root ?? endPoint))
+  _sendForm(endPoint, fetchOpt) {
+    return fetch(this._baseUrl + endPoint, this._setOptions(fetchOpt))
   }
 
   get = (endPoint) => {
@@ -57,7 +55,6 @@ class Api {
         "Authorization": this._getAuthorization(),
       }
     })
-    .then(this._confirm)
   }
 
   remove = (endPoint, id) => {
@@ -67,23 +64,26 @@ class Api {
         authorization: this._getAuthorization(),
       }
     })
-    .then(this._confirm)
   }
 
   patch = (endPoint, body, root = null) => {
-    return this._sendBody(endPoint, { method: this._patch, body }, root)
-      .then(this._confirm)
+    return this._sendForm(endPoint, { method: this._patch, body })
+      .then(() => this.get(root ?? endPoint))
   }
 
-  post = (endPoint, body, root = null) => {
-    console.log(this._baseUrl + this.registry)
-    return this._sendBody(endPoint, { method: this._post, body }, root)
+  post = (endPoint, body) => {
+    return this._sendForm(endPoint, { method: this._post, body })
+      .then(() => this.get(endPoint))
+  }
+
+  sign = (endPoint, body) => {
+    return this._sendForm(endPoint, { method: this._post, body })
       .then(this._confirm)
   }
 }
 
 const myApi = new Api({
-  baseUrl: 'https://api.balam.maya.es',
+  baseUrl: 'http://localhost:3000',
   headers: {
     getAuthorization: () => 'Bearer ' + sessionStorage.getItem('token'),
     "Content-Type": "application/json"

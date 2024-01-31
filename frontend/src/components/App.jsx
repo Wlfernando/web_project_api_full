@@ -40,7 +40,7 @@ function App() {
     }, [openPopup]),
 
     { main, register, login} = routeDev;
-
+console.log(useLocation())
   useEffect(() => {
     if ([register, login].every(route => route !== pathname)) {
       const {me, cards, get} = myApi;
