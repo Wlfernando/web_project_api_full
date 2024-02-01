@@ -33,11 +33,11 @@ const Header = () => {
         <nav className={block + '__menu' + (clicked ? ` ${block}__menu_open` : '')}>
           <ul className={block + '__list'}>
             <li className={elItem}>
-              <p className={block + '__user'} >{sessionStorage.getItem('email')}</p>
+              <p className={block + '__user'} >{localStorage.getItem('email')}</p>
             </li>
             <li className={elItem}>
               <Link
-                onClick={() => sessionStorage.clear()}
+                onClick={() => localStorage.clear()}
                 className={linkHaveMargin} to={login}>
                   Cerrar sesión
               </Link>

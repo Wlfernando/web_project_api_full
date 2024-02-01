@@ -35,7 +35,7 @@ function login({ body: { email, password } }, res, next) {
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, 'chanchito', { expiresIn: '7d' });
 
-      res.send({ token, email: user.email });
+      res.send({ token });
     })
     .catch(next);
 }

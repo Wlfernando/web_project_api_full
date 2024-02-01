@@ -31,10 +31,10 @@ export function signin(user) {
 
   return sign(login, user)
     .then(({ token }) => {
-      sessionStorage.setItem('token', token)
+      localStorage.setItem('token', token)
       return get(me)
     })
     .then((user) => {
-      sessionStorage.setItem('email', user.email)
+      localStorage.setItem('email', user.email)
     })
 }

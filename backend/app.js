@@ -15,17 +15,19 @@ const authorize = require('./middleware/authorize');
 const app = express();
 const { PORT = 3000 } = process.env;
 const allowedOrigins = [
-  'https://www.balam.maya.es',
-  'https://balam.maya.es',
-  'http://www.balam.maya.es',
-  'http://balam.maya.es',
-  'https://127.0.0.1',
+  'https://www.balam.maya.se',
+  'https://balam.maya.se',
+  'http://www.balam.maya.se',
+  'http://balam.maya.se',
+  'http://localhost:3001',
 ];
 const validator = validateMailAndPass();
 
 mongoose.connect('mongodb://127.0.0.1:27017/aroundb');
 
 app.use(express.json());
+
+app.options('*', cors({ origin: allowedOrigins }))
 
 app.use(cors({ origin: allowedOrigins }));
 
@@ -49,4 +51,6 @@ app.use(errors());
 
 app.use(hasError);
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(PORT)
+});
