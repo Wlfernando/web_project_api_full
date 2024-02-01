@@ -1,5 +1,4 @@
 const Card = require('../model/card');
-const VoidError = require('../utils/components/VoidError');
 const CastError = require('../utils/components/CastError');
 
 function hasNotFoundCard() {
@@ -8,9 +7,6 @@ function hasNotFoundCard() {
 
 function getCards(req, res, next) {
   Card.find({})
-    .orFail(() => {
-      throw new VoidError('No cards.');
-    })
     .populate(['owner', 'likes'])
     .then((cards) => res.send(cards))
     .catch(next);
