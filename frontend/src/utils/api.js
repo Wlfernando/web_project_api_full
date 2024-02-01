@@ -83,7 +83,7 @@ class Api {
 }
 
 const myApi = new Api({
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'https://api.balam.maya.se',
   headers: {
     getAuthorization: () => 'Bearer ' + localStorage.getItem('token'),
     "Content-Type": "application/json"

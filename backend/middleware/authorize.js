@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Forbidden = require('../utils/components/Forbidden');
+const { key } = require('../utils/const');
 
 const rejected = new Forbidden('Authorization needed.');
 
@@ -16,7 +17,7 @@ module.exports = function authorize(req, res, next) {
   let payload;
 
   try {
-    payload = jwt.verify(token, 'chanchito');
+    payload = jwt.verify(token, key);
   } catch (e) {
     next(rejected);
     return;

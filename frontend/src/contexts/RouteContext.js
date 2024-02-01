@@ -2,11 +2,11 @@ import { createContext } from "react";
 
 export const RouteContext = createContext()
 
-const main = '/around';
+const main = '/';
 
-const register = main + '/signup';
+const register = main + 'signup';
 
-const login = main + '/signin';
+const login = main + 'signin';
 
 export const routeDev = {
   main,

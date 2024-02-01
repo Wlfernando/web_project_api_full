@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -19,15 +20,14 @@ const allowedOrigins = [
   'https://balam.maya.se',
   'http://www.balam.maya.se',
   'http://balam.maya.se',
-  'http://localhost:3001',
+  'https://localhost:3000',
+  'http://localhost:3000',
 ];
 const validator = validateMailAndPass();
 
 mongoose.connect('mongodb://127.0.0.1:27017/aroundb');
 
 app.use(express.json());
-
-app.options('*', cors({ origin: allowedOrigins }))
 
 app.use(cors({ origin: allowedOrigins }));
 
@@ -43,6 +43,12 @@ app.use('/users', usersRouter);
 
 app.use('/cards', cardsRouter);
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('El servidor va a caer.')
+  })
+})
+
 app.use('*', notFound);
 
 app.use(errorLogger);
@@ -51,6 +57,4 @@ app.use(errors());
 
 app.use(hasError);
 
-app.listen(PORT, () => {
-  console.log(PORT)
-});
+app.listen(PORT);

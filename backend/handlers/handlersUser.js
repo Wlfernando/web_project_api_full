@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../model/user');
 const CastError = require('../utils/components/CastError');
 const VoidError = require('../utils/components/VoidError');
+const { key } = require('../utils/const');
 
 function hasNotFoundUser() {
   throw new CastError('User not Found.');
@@ -33,7 +34,7 @@ function createUser({ body: { email, password } }, res, next) {
 function login({ body: { email, password } }, res, next) {
   User.findUserByCredencials({ email, password })
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'chanchito', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, key, { expiresIn: '7d' });
 
       res.send({ token });
     })
