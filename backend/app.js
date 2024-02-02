@@ -45,9 +45,9 @@ app.use('/cards', cardsRouter);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error('El servidor va a caer.')
-  })
-})
+    throw new Error('El servidor va a caer.');
+  });
+});
 
 app.use('*', notFound);
 
