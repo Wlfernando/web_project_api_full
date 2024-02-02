@@ -59,6 +59,7 @@ function App() {
     auth.register(user)
       .then(() => {
         mssgRef.current = '¡Correcto! Ya estás registrado.'
+        history.push(login)
       })
       .catch(() => {
         mssgRef.current = `Uy, algo salió mal.
