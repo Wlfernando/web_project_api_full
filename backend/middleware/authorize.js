@@ -13,16 +13,12 @@ module.exports = function authorize(req, res, next) {
   }
 
   const token = authorization.replace('Bearer ', '');
-
-  let payload;
-
   try {
-    payload = jwt.verify(token, key);
+    req.user = jwt.verify(token, key);
   } catch (e) {
     next(rejected);
     return;
   }
 
-  req.user = payload;
   next();
 };

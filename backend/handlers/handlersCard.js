@@ -7,6 +7,7 @@ function hasNotFoundCard() {
 
 function getCards(req, res, next) {
   Card.find({})
+    .sort({ createdAt: -1 })
     .populate(['owner', 'likes'])
     .then((cards) => res.send(cards))
     .catch(next);

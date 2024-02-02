@@ -4,9 +4,14 @@ const User = require('../model/user');
 const CastError = require('../utils/components/CastError');
 const VoidError = require('../utils/components/VoidError');
 const { key } = require('../utils/const');
+const { Conflict } = require('../utils/components/Conflict');
 
 function hasNotFoundUser() {
   throw new CastError('User not Found.');
+}
+
+function hasConflict() {
+  throw new Conflict('Already registered.');
 }
 
 function getUsers(req, res, next) {
@@ -27,7 +32,7 @@ function getTheUser(req, res, next) {
 function createUser({ body: { email, password } }, res, next) {
   bcrypt.hash(password, 10)
     .then((hash) => User.create({ email, password: hash }))
-    .then((user) => res.send(user))
+    .then((user) => res.send(user), hasConflict)
     .catch(next);
 }
 

@@ -12,17 +12,10 @@ const hasError = require('./middleware/hasError');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const { validateMailAndPass } = require('./utils/utils');
 const authorize = require('./middleware/authorize');
+const { allowedOrigins } = require('./utils/const');
 
 const app = express();
 const { PORT = 3000 } = process.env;
-const allowedOrigins = [
-  'https://www.balam.maya.se',
-  'https://balam.maya.se',
-  'http://www.balam.maya.se',
-  'http://balam.maya.se',
-  'https://localhost:3000',
-  'http://localhost:3000',
-];
 const validator = validateMailAndPass();
 
 mongoose.connect('mongodb://127.0.0.1:27017/aroundb');

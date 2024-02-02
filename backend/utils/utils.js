@@ -75,6 +75,15 @@ function validateCard() {
   });
 }
 
+function validateNameAndAbout() {
+  return celebrate({
+    body: Joi.object().keys({
+      name: Joi.string().required().min(2).max(40),
+      about: Joi.string().required().min(2).max(200),
+    }),
+  });
+}
+
 module.exports = {
   validateUrlPattern,
   validateEmailPattern,
@@ -82,4 +91,5 @@ module.exports = {
   findUserByCredencials,
   validateAvatar,
   validateCard,
+  validateNameAndAbout,
 };

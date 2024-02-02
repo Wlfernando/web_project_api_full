@@ -5,13 +5,13 @@ const {
   updateUserMe,
   updateUserAvatar,
 } = require('../handlers/handlersUser');
-const { validateAvatar } = require('../utils/utils');
+const { validateAvatar, validateNameAndAbout } = require('../utils/utils');
 
 usersRouter.get('', getUsers);
 
 usersRouter.get('/me', getTheUser);
 
-usersRouter.patch('/me', updateUserMe);
+usersRouter.patch('/me',validateNameAndAbout(), updateUserMe);
 
 usersRouter.patch('/me/avatar', validateAvatar(), updateUserAvatar);
 
