@@ -4,4 +4,4 @@ exports.Conflict = class extends Error {
     this.name = 'Conflict';
     this.statusCode = 409;
   }
-}
+};

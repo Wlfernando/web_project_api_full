@@ -11,7 +11,7 @@ usersRouter.get('', getUsers);
 
 usersRouter.get('/me', getTheUser);
 
-usersRouter.patch('/me',validateNameAndAbout(), updateUserMe);
+usersRouter.patch('/me', validateNameAndAbout(), updateUserMe);
 
 usersRouter.patch('/me/avatar', validateAvatar(), updateUserAvatar);
 
